@@ -39,9 +39,23 @@ def save_checkpoint(model, optimizer, epoch, save_path):
     #     torch.save(checkpoint, os.path.join(save_path, "best.pt"))
 
 
-def load_checkpoint(checkpoint, model, optimizer):
+def load_check_point_to_use(checkpoint_file, model, device):
     print("=> Loading checkpoint")
+    checkpoint = torch.load(checkpoint_file, map_location=device)
+    model.load_state_dict(checkpoint["model"])
+
+    return model
+
+def load_checkpoint_to_continue(checkpoint_file, model, optimizer, lr, device):
+    print("=> Loading checkpoint")
+    checkpoint = torch.load(checkpoint_file, map_location=device)
     model.load_state_dict(checkpoint["model"])
     optimizer.load_state_dict(checkpoint["optimizer"])
-    # step = checkpoint["step"]
-    # return step
+    epoch = checkpoint["epoch"]
+
+    # If we don't do this then it will just have learning rate of old checkpoint
+    # and it will lead to many hours of debugging \:
+    for param_group in optimizer.param_groups:
+        param_group["lr"] = lr
+
+    return model, epoch

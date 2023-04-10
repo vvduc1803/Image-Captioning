@@ -60,8 +60,10 @@ class Vocabulary:
 
 
 class CoCoDataset(Dataset):
-    def __init__(self, root_dir, transform=None, freq_threshold=5):
+    def __init__(self, root_dir, transform=None, freq_threshold=5, set_vocab=None):
         self.root_dir = root_dir
+        self.freq_threshold=freq_threshold
+        self.set_vocab = set_vocab
         captions_path = open(os.path.join(self.root_dir, config.captions), 'r')
         captions_file = json.load(captions_path)
         self.transform = transform
@@ -70,15 +72,20 @@ class CoCoDataset(Dataset):
         self.imageID_list = [captions['image_id'] for captions in captions_file['annotations']]
         self.captions_list = [captions['caption'] for captions in captions_file['annotations']]
 
-        # Initialize vocabulary and build vocab
-        self.vocab = Vocabulary(freq_threshold)
-        self.vocab.build_vocabulary(self.captions_list)
-        print(self.vocab)
+
 
     def __len__(self):
         return len(self.imageID_list)
 
     def __getitem__(self, index):
+
+        # Initialize vocabulary and build vocab
+        if not self.set_vocab:
+            self.vocab = Vocabulary(self.freq_threshold)
+            self.vocab.build_vocabulary(self.captions_list)
+        else:
+            self.vocab = self.set_vocab
+
         caption = self.captions_list[index]
         img_id = str((self.imageID_list[index])).zfill(12) + '.jpg'
         img = Image.open(os.path.join(self.root_dir, config.images, img_id)).convert("RGB")
@@ -109,12 +116,13 @@ class MyCollate:
 def get_loader(
     root_folder,
     transform,
-    batch_size=2,
-    num_workers=8,
+    batch_size=16,
+    num_workers=4,
     shuffle=True,
     pin_memory=True,
+    vocab=None
 ):
-    dataset = CoCoDataset(root_folder, transform=transform)
+    dataset = CoCoDataset(root_folder, transform=transform, set_vocab=vocab)
 
     pad_idx = dataset.vocab.stoi["<PAD>"]
 
@@ -127,7 +135,8 @@ def get_loader(
         collate_fn=MyCollate(pad_idx=pad_idx),
     )
 
-    return loader, dataset
+    return dataset, dataset.vocab, loader
+
 
 
 if __name__ == "__main__":

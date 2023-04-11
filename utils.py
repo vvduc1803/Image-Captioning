@@ -5,6 +5,7 @@
 """Import necessary packages"""
 import os
 import torch
+import random
 import matplotlib.pyplot as plt
 
 def read_caption(num_caption, vocab):
@@ -24,7 +25,7 @@ def read_caption(num_caption, vocab):
 
     return [vocab.itos[id.item()] for id in str_caption]
 
-def plot_examples(model, device, dataset, vocab, num_examples=5):
+def plot_examples(model, device, dataset, vocab, num_examples=20):
     """
     Plot image, correct caption and predict caption of some image in dataset
 
@@ -43,22 +44,23 @@ def plot_examples(model, device, dataset, vocab, num_examples=5):
 
     # Load over examples
     for example in range(num_examples):
-        # Take some example from datset
-        image, caption = dataset.__getitem__(example)
+        # Take some example from dataset
+        image, caption = dataset.__getitem__(random.randint(0, dataset.__len__()))
         image = image.to(device)
 
         # Print output
-        print(f"Example {example+1} CORRECT: " + " ".join(read_caption(caption, vocab)))
-        print(f"Example {example+1} OUTPUT: " + " ".join(model.caption_image(image.unsqueeze(0), vocab)))
+        correct = f"Example {example+1} CORRECT: " + " ".join(read_caption(caption, vocab))
+        output = f"Example {example+1} OUTPUT: " + " ".join(model.caption_image(image.unsqueeze(0), vocab))
+        print(correct)
+        print(output)
         print('----------------------------------------------')
 
-        # Plot output
+        # Plot image and caption
         fig, ax = plt.subplots()
         ax.imshow(dataset.img)
         ax.axis('off')
         fig.text(0.5, 0.05,
-                 f"Example {example+1} CORRECT: " + " ".join(read_caption(caption, vocab)) + '\n' +
-                 f"Example {example+1} OUTPUT: " + " ".join(model.caption_image(image.unsqueeze(0), vocab)),
+                 correct + '\n' + output,
                  ha="center")
 
         plt.show()
@@ -90,7 +92,7 @@ def load_check_point_to_use(checkpoint_file, model, device):
 
 def load_checkpoint_to_continue(checkpoint_file, model, optimizer, lr, device):
     print("=> Loading checkpoint")
-    checkpoint = torch.load(checkpoint_file, map_location=device)
+    checkpoint = torch.load(checkpoint_file+'/last.pt', map_location=device)
     model.load_state_dict(checkpoint["model"])
     optimizer.load_state_dict(checkpoint["optimizer"])
     epoch = checkpoint["epoch"]

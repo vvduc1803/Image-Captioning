@@ -155,9 +155,8 @@ def train():
         if args.save_model:
             best_loss = save_checkpoint(model, optimizer, epoch, args.save_path, last_loss, best_loss)
 
-        # Plot some examples after 5 epochs
-        if epoch % 5 == 0:
-            plot_examples(model, args.device, val_dataset, train_dataset.vocab)
+        # Plot some examples
+        plot_examples(model, args.device, val_dataset, train_dataset.vocab)
 
         print('-------------------------------------------------')
 

@@ -33,7 +33,7 @@ num_workers = 4
 batch_size = 16
 
 # Save, load model
-load_model = False
+load_model = True
 save_model = True
 
 # Compose transform image

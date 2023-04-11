@@ -1,9 +1,21 @@
+# -*- coding: utf-8 -*-
+"""
+@author: Van Duc <vvduc03@gmail.com>
+"""
+"""Import necessary packages"""
 import os
 import torch
-import numpy as np
 import matplotlib.pyplot as plt
 
 def read_caption(num_caption, vocab):
+    """
+    Convert caption form number to string
+    Args:
+        num_caption: caption form number
+        vocab: vocabulary file
+    Returns:
+        A list of string (ex: [a, dog, in, the, sky])
+    """
     str_caption = []
     for cap in num_caption[1:]:
         if vocab.itos[cap.item()] == "<EOS>":
@@ -12,15 +24,35 @@ def read_caption(num_caption, vocab):
 
     return [vocab.itos[id.item()] for id in str_caption]
 
-def print_examples(model, device, dataset, vocab, num_examples=5):
+def plot_examples(model, device, dataset, vocab, num_examples=5):
+    """
+    Plot image, correct caption and predict caption of some image in dataset
+
+    Args:
+        model: pretrained-model to predict caption
+        device: target device cpu and gpu
+        dataset: dataset
+        vocab: vocabulary
+        num_examples: number examples plot
+
+    Returns:
+        Images of picture and caption
+    """
     model.eval()
     model.to(device)
+
+    # Load over examples
     for example in range(num_examples):
+        # Take some example from datset
         image, caption = dataset.__getitem__(example)
         image = image.to(device)
+
+        # Print output
         print(f"Example {example+1} CORRECT: " + " ".join(read_caption(caption, vocab)))
         print(f"Example {example+1} OUTPUT: " + " ".join(model.caption_image(image.unsqueeze(0), vocab)))
         print('----------------------------------------------')
+
+        # Plot output
         fig, ax = plt.subplots()
         ax.imshow(dataset.img)
         ax.axis('off')

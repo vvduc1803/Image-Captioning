@@ -16,7 +16,6 @@ from utils import load_check_point_to_use
 # Initialize parameters and parse the parameters
 def get_args():
     parse = argparse.ArgumentParser()
-    parse.add_argument('--device', '-d', type=str, default=config.device, help='device to training')
     parse.add_argument('--save-path', '-s', type=str, default=config.save_path, help='number of batch size')
     parse.add_argument('--transform', default=config.transform, help='Compose transform of images')
     parse.add_argument('--embed-size', default=config.embed_size, help='Size of embedding')
@@ -34,10 +33,10 @@ vocab.read_vocab()
 args = get_args()
 
 # Load model
-model = ImgCaption_Model(args.embed_size, args.hidden_size, len(vocab), args.num_layer).to(args.device)
+model = ImgCaption_Model(args.embed_size, args.hidden_size, len(vocab), args.num_layer)
 
 # Load saved weights
-load_check_point_to_use(args.save_path + '/best.pt', model, args.device)
+load_check_point_to_use(args.save_path + '/best.pt', model, 'cpu')
 
 def caption(img):
     """Transforms, describe about image and returns caption and time taken.

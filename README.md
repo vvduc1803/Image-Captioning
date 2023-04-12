@@ -92,13 +92,13 @@ Finetuning the model.
 
 ### Evaluation
 
-**Accuracy** of the network on the 2500 test images: **76.38%**
+**Cross Entropy Loss** of the network on ~20000 validation images: **76.38%**
 
 ### Observations
 
 1. The **MODEL** has a very medium size i.e **0.1 GB**.
 2. Adjusting parameters like **batch size, number of workers, pin_memory, ** etc. may help you **reduce training time**, especially if you have a big dataset and a high-end machine(hardware).
-3. Adjusting parameters like **learning rate, weight decay** etc maybe can help you **improve** model.
+3. Adjusting parameters like **learning rate, epochs**, etc... maybe can help you **improve** model.
 ### Todo
 
 1. Experiments with different **learning-rate and optimizers**.

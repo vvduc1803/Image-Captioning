@@ -15,5 +15,7 @@ COPY . .
 # Install necessary package
 RUN pip3 install -r requirement.txt
 
+EXPOSE 1234
+
 # Run app
 CMD ["python3","app.py"]

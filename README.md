@@ -91,7 +91,7 @@ Finetuning the model.
 
 ### Evaluation
 
-**Cross Entropy Loss** of the network on ~20000 validation images: **76.38%**
+**Cross Entropy Loss** of the network on ~20000 validation images: **2.23**
 
 ### Observations
 

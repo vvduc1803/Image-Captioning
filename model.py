@@ -7,8 +7,6 @@ import torch
 import torch.nn as nn
 import torchvision.models as models
 
-from torchinfo import summary
-
 class CNN(nn.Module):
     def __init__(self, embed_size=256, train_model=False):
         super().__init__()

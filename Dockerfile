@@ -8,12 +8,13 @@ WORKDIR /save
 RUN apt-get update -y
 RUN apt-get install -y python3-pip build-essential pkg-config
 RUN pip3 install --upgrade pip
+RUN pip3 install torch
 
 # Clone all file to image
 COPY . .
 
 # Install necessary package
-RUN pip3 install -r requirement.txt
+RUN pip3 install -r requirements.txt
 
 EXPOSE 1234
 

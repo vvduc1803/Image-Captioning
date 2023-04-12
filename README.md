@@ -10,7 +10,8 @@ Model **describe** about the **picture** using pytorch. Here, i use **COCO Datas
 * Pytorch
 
 ```python
-pip instal pytorch       # pytorch library
+pip install spacy        # spaCy 
+pip install pytorch      # pytorch library
 pip install torchsummary # summary
 pip install torchvision  # pytorch for vision
 ```
@@ -19,9 +20,7 @@ pip install torchvision  # pytorch for vision
 
 ### How to run
 ----------------------------------------
-⬇️⬇️**Download** and extract training dataset on Kaggle: [500 bird species dataset](https://www.kaggle.com/datasets/gpiosenka/100-bird-species)
-
-⬇️⬇️**Download** pretrained model: [Model](https://drive.google.com/file/d/1zyREJei3KgIUaEEPvsaZxjdXNuD6grgx/view)
+⬇️⬇️**Download** and extract dataset on Kaggle: [Image Captioning dataset](www.kaggle.com/vanduc0xff/image-captioning-coco-dataset)
 
 Run the following **scripts** for training and/or testing
 
@@ -29,7 +28,7 @@ Run the following **scripts** for training and/or testing
 python train.py # For training the model 
 ```
 ----------------------------------------
-🤗🤗**Hugging face** version: [Hugging Face](https://huggingface.co/spaces/vvd2003/Yolov8_cls_500_bird_species)
+🤗🤗**Hugging face** version: [Hugging Face](https://huggingface.co/spaces/vvd2003/Image-Captioning)
 -----------------------------------------
 <img src="https://www.docker.com/wp-content/uploads/2022/03/Moby-logo.png" alt="docker" width="50" height="40"/><img src="https://www.docker.com/wp-content/uploads/2022/03/Moby-logo.png" alt="docker" width="50" height="40"/>**Docker Image**
 -----------
@@ -63,7 +62,7 @@ docker logs -f image_captioning                                             # Ru
 
 |    | Loss(Validation) | Size     | Training Epochs | Training Mode          |
 |----|------------------|----------|----|------------------------|
-| **Model** | 74.37            | 101.2 MB |  40 | scratch mix pretrained |
+| **Model** | 2.23             | 101.2 MB |  40 | scratch mix pretrained |
 
 **Batch size**: 16, **GPU**: RTX 3050 4G
 
@@ -72,7 +71,7 @@ docker logs -f image_captioning                                             # Ru
 **Model:** 
 
 Finetuning the model.
-![Screenshot](results/Loss_acc.png)
+![Screenshot](view/loss.png)
 
 ### Sample outputs
 
@@ -109,5 +108,5 @@ Finetuning the model.
 Van Duc
  
 ### Acknowledgments
-* "https://blog.roboflow.com/whats-new-in-yolov8/"
+* "https://arxiv.org/abs/1502.03044"
 

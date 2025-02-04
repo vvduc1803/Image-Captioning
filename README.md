@@ -2,7 +2,7 @@
 
 ## Pytorch: Image Captioning
 
-Model **describe** about the **picture** using pytorch. Here, i use **COCO Dataset ** of **500 bird species** containing about ** 800,000 images and captions** for training, validation and testing.
+Model **describe** about the **picture** using pytorch.
 
 ### Dependencies
 
